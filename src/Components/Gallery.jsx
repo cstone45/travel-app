@@ -6,21 +6,22 @@ const TourList = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            setError(false);
+            const response = await fetch('https://course-api.com/react-tours-project');
+            const data = await response.json();
+            setTours(data); // Update tours state
+        } catch (error) {
+            setError(true);
+            console.error("Failed to Fetch Data", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                setError(false);
-                const response = await fetch('https://course-api.com/react-tours-project');
-                const data = await response.json();
-                setTours(data); // Update tours state
-            } catch (error) {
-                setError(true);
-                console.error("Failed to Fetch Data", error);
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchData();
     }, []); // Empty dependency array to fetch data on mount
 
@@ -39,7 +40,10 @@ const TourList = () => {
     return (
         <div>
             {tours.length === 0 ? (
-                <p>No Tours Left. Refresh to Reload.</p>
+                <div>
+                    <p>No Tours Left. Refresh to Reload.</p>
+                    <button onClick={fetchData}>Refresh</button> {/* Refresh button */}
+                </div>
             ) : (
                 <ul>
                     {tours.map((tour) => (
