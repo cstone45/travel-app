@@ -1,34 +1,45 @@
-import React, {useEffect, useState} from 'react'; //Imports react from react
-import TourCard from "./TourCard"; //Imports the TourCard format from TourCard.jsx
+import React, { useEffect, useState } from 'react';
 
-const TourList = ({tours, setTours, onRemove}) => { //Created the TourList function
+const TourList = () => {
+    const [tours, setTours] = useState([]); // Store tours in useState
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    useEffect(() => { //Uses useEffect to fetch data
+
+    useEffect(() => {
         const fetchData = async () => {
             try {
-                setLoading(true); //Created a loading screen effect when the data is loading
-                setError(false); //Sets Error to false
-                const response = await fetch('https://course-api.com/react-tours-project'); //Fetches the Data from this website
-                const data = await response.json(); //Converts the response to JSON
-                setTours(data); //Displays the Data of each tour in the cards
+                setLoading(true);
+                setError(false);
+                const response = await fetch('https://course-api.com/react-tours-project');
+                const data = await response.json();
+                setTours(data); // Update tours state
             } catch (error) {
                 setError(true);
-                console.log("Failed to Fetch Data");
+                console.error("Failed to Fetch Data", error);
             } finally {
                 setLoading(false);
             }
         };
         fetchData();
-    }, []);
-    return ( //Returns the Tour Information from Each Card
+    }, []); // Empty dependency array to fetch data on mount
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>Failed to load tours. Please try again later.</p>;
+    }
+
+    return (
         <ul>
-            {tours.map(tours => (
-                <li key={tours.id}>
-                    {tour.name} - {tour.price} - {tour.image}
+            {tours.map(tour => (
+                <li key={tour.id}>
+                    {tour.name} - {tour.price} - <img src={tour.image} alt={tour.name} style={{ width: '100px' }} />
                 </li>
             ))}
         </ul>
     );
-}
+};
+
 export default TourList;
