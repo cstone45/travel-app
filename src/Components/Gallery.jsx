@@ -5,11 +5,21 @@ const TourList = ({tours, setTours, onRemove}) => { //Created the TourList funct
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     useEffect(() => { //Uses useEffect to fetch data
-        fetch('https://course-api.com/react-tours-project') //Fetches the Data from this website
-        setLoading(true); //Created a loading screen effect when the data is loading
-        setError(false); //Sets Error to false
-        then(response => response.json()) //Converts the response to JSON
-        then(data => setTours(tours)); //Displays the Data of each tour in the cards
+        const fetchData = async () => {
+            try {
+                setLoading(true); //Created a loading screen effect when the data is loading
+                setError(false); //Sets Error to false
+                const response = await fetch('https://course-api.com/react-tours-project'); //Fetches the Data from this website
+                const data = await response.json(); //Converts the response to JSON
+                setTours(data); //Displays the Data of each tour in the cards
+            } catch (error) {
+                setError(true);
+                console.log("Failed to Fetch Data");
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
     }, []);
     return ( //Returns the Tour Information from Each Card
         <ul>
@@ -20,10 +30,5 @@ const TourList = ({tours, setTours, onRemove}) => { //Created the TourList funct
             ))}
         </ul>
     );
-catch (error) {
-    setError(true);
-    console.log("Failed to Fetch Data");
-}; //Created a system to catch errors
 }
-
 export default TourList;
