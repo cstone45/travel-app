@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import TourCard from './TourCard';
 
 const TourList = () => {
     const [tours, setTours] = useState([]); // Store tours in useState
@@ -23,6 +24,10 @@ const TourList = () => {
         fetchData();
     }, []); // Empty dependency array to fetch data on mount
 
+    const handleRemoveTour = (id) => {
+        setTours(tours.filter((tour) => tour.id !== id)); // Remove the tour with the given id
+    };
+
     if (loading) {
         return <p>Loading...</p>;
     }
@@ -32,13 +37,26 @@ const TourList = () => {
     }
 
     return (
-        <ul>
-            {tours.map(tour => (
-                <li key={tour.id}>
-                    {tour.name} - {tour.price} - <img src={tour.image} alt={tour.name} style={{ width: '100px' }} />
-                </li>
-            ))}
-        </ul>
+        <div>
+            {tours.length === 0 ? (
+                <p>No tours available. Refresh to see them again!</p>
+            ) : (
+                <ul>
+                    {tours.map((tour) => (
+                        <li key={tour.id}>
+                            <TourCard
+                                id={tour.id}
+                                name={tour.name}
+                                info={tour.info}
+                                price={tour.price}
+                                image={tour.image}
+                                onRemove={handleRemoveTour}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
     );
 };
 
