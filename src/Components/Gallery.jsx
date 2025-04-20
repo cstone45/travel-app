@@ -39,7 +39,7 @@ const TourList = () => {
     return (
         <div>
             {tours.length === 0 ? (
-                <p>No tours available. Refresh to see them again!</p>
+                <p>No Tours Left. Refresh to Reload.</p>
             ) : (
                 <ul>
                     {tours.map((tour) => (
