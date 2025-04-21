@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import TourCard from './TourCard';
+import TourCard from './TourCard'; //Imports the TourCard tenplate from TourCard.jsx
 
 const TourList = ({ tours, setTours }) => {
     const [loading, setLoading] = useState(true);
@@ -20,18 +20,18 @@ const TourList = ({ tours, setTours }) => {
             console.error("Failed to Fetch Data", error);
         } finally {
             setLoading(false);
-        }
+        } //Creates the process to fetch the data from the API and display it on the webpage
     };
 
     useEffect(() => {
         fetchData();
-    }, [setTours]);
+    }, [setTours]); //Fetches the data when the component mounts
 
     const handleRemoveTour = (id) => {
         const updatedTours = tours.filter((tour) => tour.id !== id);
         setTours(updatedTours);
         setFilteredTours(updatedTours);
-    };
+    }; //Created a function to remove a tour from the list when the Not Interested button is clicked
 
     const handleFilterChange = (event) => {
         const name = event.target.value;
@@ -41,15 +41,15 @@ const TourList = ({ tours, setTours }) => {
         } else {
             setFilteredTours(tours.filter((tour) => tour.name === name)); // Filter tours by name
         }
-    };
+    }; //Created a function to filter the tours by name
 
     if (loading) {
         return <p>Loading...</p>;
-    }
+    } //Creates a Loading text when the Tours are loading on the webpage
 
     if (error) {
         return <p>Failed to load tours. Please try again later.</p>;
-    }
+    } //Created an Error Message when Tours fail to load
 
     return (
         <div>
@@ -61,14 +61,14 @@ const TourList = ({ tours, setTours }) => {
                         <option key={name} value={name}>
                             {name}
                         </option>
-                    ))}
+                    ))} 
                 </select>
             </div>
-            {filteredTours.length === 0 ? (
-                <div>
-                    <p>No Tours Left. Refresh to Reload.</p>
-                    <button onClick={fetchData}>Refresh</button>
-                </div>
+            {filteredTours.length === 0 ? ( //Created the parameters for which the Refresh Button will appear and be clickable
+                <div> 
+                    <p>No Tours Left. Refresh to Reload.</p> 
+                    <button onClick={fetchData}>Refresh</button> 
+                </div> //Fetches the Data when the Refresh button is clicked
             ) : (
                 <ul>
                     {filteredTours.map((tour) => (
@@ -79,9 +79,9 @@ const TourList = ({ tours, setTours }) => {
                                 info={tour.info}
                                 price={tour.price}
                                 image={tour.image}
-                                onRemove={handleRemoveTour}
+                                onRemove={handleRemoveTour} //Adds the function to remove the card to the Tour Card via the Not Interested button
                             />
-                        </li>
+                        </li> //Creates the Display of information on the Tour Card
                     ))}
                 </ul>
             )}

@@ -28,7 +28,7 @@ const DestinationSelector = ({ tours, onFilter }) => {
                 ))}
             </select>
         </div>
-    );
+    ); //Creates the Filter which will allow one to filter tours by name
 };
 
-export default DestinationSelector;
+export default DestinationSelector; //Exports DestinationSelector

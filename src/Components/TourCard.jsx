@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function TourCard({ id, name, info, price, image, onRemove }) {
-    const [readMore, setReadMore] = useState(false);
+    const [readMore, setReadMore] = useState(false); //Creates the Tour Card function
 
     return (
         <article className="tour-card">
@@ -18,7 +18,7 @@ function TourCard({ id, name, info, price, image, onRemove }) {
                 Not Interested
             </button>
         </article>
-    );
+    ); //Creates the Basic TourCard format and adds the Show more/Show less button
 }
 
-export default TourCard;
+export default TourCard; //Exports TourCard
